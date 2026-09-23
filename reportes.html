@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="reportes.css">
+</head>
+<body>
+    <div class="shell">
+ 
+  <header class="hero">
+    <div class="hero-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+    </div>
+    <h1>Reporta a Tránsito</h1>
+    <p class="hero-sub">Avisa sobre un vehículo o un puesto ambulante mal estacionado. Tu reporte llega directo al correo de Tránsito.</p>
+    <p class="anon-pill">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z"/></svg>
+      No pedimos tu nombre ni tu correo. El reporte es anónimo.
+    </p>
+  </header>
+ 
+  <nav class="progress" aria-label="Pasos del reporte">
+    <ol>
+      <li data-step="1" class="on"><span class="dot">1</span>Categoría</li>
+      <li data-step="2"><span class="dot">2</span>Detalles</li>
+      <li data-step="3"><span class="dot">3</span>Foto</li>
+      <li data-step="4"><span class="dot">4</span>Enviar</li>
+    </ol>
+  </nav>
+ 
+  <main class="card">
+    <form id="report-form" novalidate>
+ 
+      <!-- Paso 1: Categoría -->
+      <section class="step" data-step="1">
+        <h2>¿Qué quieres reportar?</h2>
+        <p class="hint">Elige la categoría que mejor describe la situación.</p>
+        <div class="category-grid" role="radiogroup" aria-label="Categoría del reporte">
+          <button type="button" class="category-card" data-value="vehiculo" role="radio" aria-checked="false">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13"/><rect x="3" y="13" width="18" height="5" rx="1.5"/><circle cx="7.5" cy="18.5" r="1.6"/><circle cx="16.5" cy="18.5" r="1.6"/></svg>
+            <span>Vehículo mal estacionado</span>
+          </button>
+          <button type="button" class="category-card" data-value="ambulante" role="radio" aria-checked="false">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l2 4v3a1 1 0 0 1-1 1H4V8Z"/><path d="M8 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><circle cx="7.5" cy="18.5" r="1.6"/><circle cx="16.5" cy="18.5" r="1.6"/></svg>
+            <span>Vendedor ambulante mal ubicado</span>
+          </button>
+        </div>
+        <input type="hidden" id="categoria" name="Categoría" required>
+        <div class="nav-row"><span></span><button type="button" class="btn primary" data-next disabled>Continuar</button></div>
+      </section>
+ 
+      <!-- Paso 2: Detalles -->
+      <section class="step" data-step="2" hidden>
+        <h2>Cuéntanos qué pasó</h2>
+        <p class="hint">Una descripción breve y la ubicación ayudan a que Tránsito actúe más rápido.</p>
+ 
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="Descripción" rows="4" maxlength="400" placeholder="Ej: Carro azul obstruyendo la rampa peatonal, lleva más de una hora." required></textarea>
+        <span class="counter"><span id="desc-count">0</span>/400</span>
+ 
+        <label for="direccion">Dirección o punto de referencia</label>
+        <input type="text" id="direccion" name="Dirección" placeholder="Ej: Cra 15 con Calle 30, frente al parque" required>
+ 
+        <button type="button" class="btn ghost small" id="geo-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+          Usar mi ubicación actual
+        </button>
+        <input type="hidden" id="coordenadas" name="Coordenadas GPS">
+        <p class="geo-status" id="geo-status" aria-live="polite"></p>
+ 
+        <div class="nav-row"><button type="button" class="btn ghost" data-prev>Atrás</button><button type="button" class="btn primary" data-next>Continuar</button></div>
+      </section>
+ 
+      <!-- Paso 3: Foto -->
+      <section class="step" data-step="3" hidden>
+        <h2>Agrega una foto</h2>
+        <p class="hint">Una imagen clara facilita que Tránsito verifique el caso. Es opcional, pero recomendada.</p>
+ 
+        <label class="photo-drop" id="photo-drop" for="foto">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span id="photo-label">Toca para tomar o subir una foto</span>
+          <input type="file" id="foto" name="Foto" accept="image/*" capture="environment" hidden>
+        </label>
+        <img id="photo-preview" alt="Vista previa de la foto" hidden>
+        <button type="button" class="btn ghost small" id="photo-remove" hidden>Quitar foto</button>
+ 
+        <div class="nav-row"><button type="button" class="btn ghost" data-prev>Atrás</button><button type="button" class="btn primary" data-next>Continuar</button></div>
+      </section>
+ 
+      <!-- Paso 4: Revisar y enviar -->
+      <section class="step" data-step="4" hidden>
+        <h2>Revisa y envía</h2>
+        <p class="hint">Así queda tu reporte. Se enviará de forma anónima al correo de Tránsito.</p>
+ 
+        <dl class="summary" id="summary"></dl>
+ 
+        <div class="nav-row"><button type="button" class="btn ghost" data-prev>Atrás</button><button type="submit" class="btn primary" id="submit-btn">Enviar reporte</button></div>
+      </section>
+ 
+    </form>
+ 
+    <!-- Confirmación -->
+    <section class="step success" id="success-screen" hidden>
+      <div class="success-badge">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h2>Reporte enviado</h2>
+      <p>Gracias por avisar. Tránsito recibió tu reporte anónimo y podrá revisarlo.</p>
+      <button type="button" class="btn primary" id="new-report-btn">Hacer otro reporte</button>
+    </section>
+  </main>
+ 
+  <footer class="foot">
+    <p>Este canal es para reportes de espacio público. En una emergencia, llama a la línea de Tránsito o al 123.</p>
+  </footer>
+ 
+</div>
+ 
+<script src="reportes.js"></script>
+</body>
+</html>
